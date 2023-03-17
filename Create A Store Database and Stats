@@ -1,0 +1,35 @@
+--Create a store database--
+
+CREATE TABLE store (id integer primary key, product text, section integer, price integer, popularity integer);
+
+INSERT into store Values 
+(1, "Cat tower", 7, 49, 70);
+INSERT into store Values
+(2, "Kids Clothes", 1, 25, 100);
+INSERT into store Values
+(3, "Toothbrush", 3, 5, 500);
+INSERT into store Values
+(4, "Big Rug", 12, 78, 25);
+INSERT into store Values
+(5, "Coffee Grinder", 4, 16, 100);
+INSERT into store Values
+(6,"Squishmallow",3, 35, 100);
+INSERT into store Values
+(7,"Instax Camera", 14, 98, 250);
+INSERT into store Values
+(8, "Pot Plants", 1., 7.5, 200);
+INSERT into store Values
+(9,"Candles", 9, 10, 250);
+INSERT into store Values
+(10,"Resin crafts", 4, 76,78);
+
+SELECT * FROM store ORDER BY price desc ;
+
+--What is the average price of products in section 1?--
+
+SELECT AVG(price) FROM store where section=1;
+
+--What are the 3 most popular item in the store?--
+
+SELECT product,price,popularity FROM store
+Order by popularity limit 3;
