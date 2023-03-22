@@ -1,0 +1,71 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
+--1.How many orders were placed in January? 
+-- =9681
+
+Select count(orderid) from bit_db.jansales
+where length(orderid) = 6 
+AND orderid is not null
+AND product = 'iPhone'
+
+
+--2.How many of those orders were for iphones?
+-- =379
+
+SELECT distinct acctnum
+FROM BIT_DB.customers
+JOIN BIT_DB.FebSales
+ON customers.order_id=FebSales.orderID
+where length(orderid) = 6 
+AND orderid is not null 
+
+--3.Select the customer account numbers for all the orders that were placed in February.
+
+
+/*SELECT distinct product, min(price) FROM BIT_DB.JanSales
+group by product, price
+order by price asc limit 1*/
+
+--4.Which product was the cheapest one sold in January, and what was the price? 
+-- =AAA Batteries, $2.99.
+
+
+SELECT sum(quantity)*price as revenue
+, product
+from bit_db.JanSales 
+group by product
+
+
+--5.What is the total revenue for each product sold in January? 
+-- =$23647.85 =$121676.88 =$62845.81 =$119316.86 etc.
+
+Select product,
+sum(quantity),
+sum(quantity)*price as revenue
+FROM bIT_DB.FEBSALES
+WHERE location="548 Lincoln St, Seattle, WA 98101"
+group by product
+
+--6. Which Products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold and what was the total revenue?
+-- =AA Batteries(4-Pack), 2, $7.68
+
+select 
+count(distinct customer.acctnum), 
+avg(febsales.quantity*febsales.price),
+FROM BIT_DB.FebSales
+
+--7. How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers?
+-- =278 =$13.82
+
+SELECT
+count(distinct cust.acctnum),
+avg(quantity*price)
+FROM BIT_DB.customers cust
+LEFT JOIN BIT_DB.FebSales feb
+ON feb.orderid=cust.order_id
+WHERE feb.quantity>2
+AND length(orderid) = 6
+AND orderid is NOT NULL
+
+
+
